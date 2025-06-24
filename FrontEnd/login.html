@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Sophie Bluel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&family=Work+Sans:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<div class="page-wrapper">
+  <header>
+    <h1>Sophie Bluel <span>INTERIOR DESIGNER</span></h1>
+    <nav>
+      <ul>
+        <li>Projects</li>
+        <li>Contact</li>
+        <li><strong>Login</strong></li>
+        <li>
+          <a href="#" target="_blank">
+            <img src="./assets/icons/instagram.png" alt="Instagram">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="login">
+    <h2>Login</h2>
+    <form id="login-form">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <input type="submit" value="Sign in">
+      <a href="#">Forgot your password?</a>
+
+      <p id="error-message" style="color: red; display: none;">Invalid email or password.</p>
+    </form>
+  </main>
+
+  <footer>
+  <nav>
+    <ul>
+      <li class="footer-legal">Legal Notice</li>
+    </ul>
+  </nav>
+</footer>
+
+
+  <script src="./assets/login.js" defer></script>
+</div>
+</body>
+</html>
