@@ -1,25 +1,54 @@
-// 1. Grab DOM references
+// 1) Grab DOM references
 const gallery = document.querySelector('.gallery');
-const filterButtons = document.querySelectorAll('.filters button');
+const filtersDiv = document.querySelector('.filters');
 
-// 2. Will hold the full list of jobs
 let allJobs = [];
 
-// 3. Fetch & initialize
+// 2) Fetch, build filters, and render
 async function fetchAndDisplayJobs() {
   try {
+    // Fetch all projects
     const res = await fetch('http://localhost:5678/api/works');
-    allJobs = await res.json();
+    allJobs = await res.json();  // array of { id, title, imageUrl, category: { name } }
+
+    // Build dynamic filter buttons
+    const categoryNames = allJobs.map(job => job.category.name);
+    const uniqueNames = [...new Set(categoryNames)];
+    filtersDiv.innerHTML =
+      `<button class="active">All</button>` +
+      uniqueNames.map(name => `<button>${name}</button>`).join('');
+
+    // Wire up each filter button
+    const filterButtons = filtersDiv.querySelectorAll('button');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Highlight active
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter data
+        const choice = btn.textContent.toLowerCase();
+        const toShow =
+          choice === 'all'
+            ? allJobs
+            : allJobs.filter(j => j.category.name.toLowerCase() === choice);
+
+        renderGallery(toShow);
+      });
+    });
+
+    // Initial render (All)
     renderGallery(allJobs);
+
   } catch (err) {
     console.error('Error fetching jobs:', err);
   }
 }
 
-// 4. Renders a given list of jobs into the gallery
+// 3) Render helper
 function renderGallery(jobs) {
   gallery.innerHTML = '';
-  jobs.forEach(({ title, imageUrl }) => {
+  jobs.forEach(({ imageUrl, title }) => {
     const figure = document.createElement('figure');
     figure.innerHTML = `
       <img src="${imageUrl}" alt="${title}">
@@ -29,25 +58,6 @@ function renderGallery(jobs) {
   });
 }
 
-// 5. Wire up filter buttons
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    // 5a. Update active class
-    filterButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    // 5b. Determine filter and re-render
-    const filter = btn.textContent.toLowerCase();
-    if (filter === 'all') {
-      renderGallery(allJobs);
-    } else {
-      const filtered = allJobs.filter(job =>
-        job.category.name.toLowerCase() === filter
-      );
-      renderGallery(filtered);
-    }
-  });
-});
-
-// 6. Run on load
+// 4) Kick it off
 fetchAndDisplayJobs();
+
