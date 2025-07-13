@@ -9,12 +9,9 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
-		<meta name="description" content="">
-		<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-/>
-<link rel="stylesheet" href="./assets/style.css">
+	<meta name="description" content="">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	<link rel="stylesheet" href="./assets/style.css">
 </head>
 
 <body>
@@ -46,20 +43,20 @@
 			</article>
 		</section>
 		<section id="portfolio">
-  <div class="portfolio-header">
-    <h2>My Projects</h2>
-    <!-- our new edit button/icon: -->
-   <button id="open-edit-mode" class="edit-btn" aria-label="Edit portfolio">
-  <i class="fa-regular fa-pen-to-square"></i>
-  <span class="edit-label">Edit</span>
-</button>
+			<div class="portfolio-header">
+				<h2>My Projects</h2>
+				<!-- our new edit button/icon: -->
+				<button id="open-edit-mode" class="edit-btn" aria-label="Edit portfolio">
+					<i class="fa-regular fa-pen-to-square"></i>
+					<span class="edit-label">Edit</span>
+				</button>
 
 
-  </div>
+			</div>
 
-  <div class="filters"></div>
-  <div class="gallery"></div>
-</section>
+			<div class="filters"></div>
+			<div class="gallery"></div>
+		</section>
 
 		<section id="contact">
 			<h2>Contact</h2>
@@ -84,6 +81,60 @@
 		</nav>
 	</footer>
 	<script src="./assets/script.js" defer></script>
+	<!-- Admin Modal (hidden by default) -->
+	<div id="admin-modal" class="modal" style="display:none;">
+		<div class="modal-backdrop"></div>
+		<div class="modal-content">
+
+			<!-- Modal Header (common) -->
+			<div class="modal-header">
+				<!-- Back arrow (only shown in Add view) -->
+				<button id="back-to-gallery" class="modal-back" aria-label="Retour">&larr;</button>
+				<!-- Title will change per view -->
+				<h3 id="modal-title">Photo Gallery</h3>
+				<!-- Close button -->
+				<button id="modal-close" class="modal-close" aria-label="Fermer">&times;</button>
+			</div>
+
+			<!-- VIEW 1: Photo Gallery -->
+			<section id="view-gallery" class="modal-view">
+				<div class="modal-thumbs"><!-- JS will fill these --></div>
+				<hr class="modal-hr">
+				<button id="open-add-view" class="btn-add-photo">Add a photo</button>
+			</section>
+
+			<!-- VIEW 2: Add Photo Form -->
+			<section id="view-add" class="modal-view hidden">
+				<form id="add-photo-form">
+					<div class="upload-container">
+						<label class="file-upload">
+							<input type="file" id="photo-input" accept="image/*" required>
+							<div class="upload-box">
+								<i class="fa-regular fa-image upload-icon"></i>
+								<button type="button" class="upload-btn">+ Add photo</button>
+							</div>
+						</label>
+						<small class="upload-hint">jpg, png: max 4 MB</small>
+					</div>
+
+					<label for="title-input">Title</label>
+					<input type="text" id="title-input" required>
+
+					<label for="category-select">Category</label>
+					<select id="category-select" required>
+						<option value="">Select category</option>
+					</select>
+
+					<hr class="modal-hr">
+
+					<button type="submit" class="btn-confirm" disabled>Confirm</button>
+				</form>
+			</section>
+
+
+		</div>
+	</div>
+
 </body>
 
 </html>

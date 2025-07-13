@@ -3,187 +3,291 @@
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
+
 body {
-	line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-	list-style: none;
+
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
 }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
+
 /** end reset css**/
 body {
-	max-width: 1140px;
-	margin:auto;
-	font-family: 'Work Sans' ;
-	font-size: 14px;
+  max-width: 1140px;
+  margin: auto;
+  font-family: 'Work Sans';
+  font-size: 14px;
 }
+
 header {
-	display: flex;
-	justify-content: space-between;
-	margin: 50px 0
+  display: flex;
+  justify-content: space-between;
+  margin: 50px 0
 }
+
 section {
-	margin: 50px 0
+  margin: 50px 0
 }
 
-h1{
-	display: flex;
-	flex-direction: column;
-	font-family: 'Syne';
-	font-size: 22px;
-	font-weight: 800;
-	color: #B1663C
+h1 {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Syne';
+  font-size: 22px;
+  font-weight: 800;
+  color: #B1663C
 }
 
-h1 > span {
-	font-family: 'Work Sans';
-	font-size:10px;
-	letter-spacing: 0.1em;
-;
+h1>span {
+  font-family: 'Work Sans';
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  ;
 }
 
-h2{
-	font-family: 'Syne';
-	font-weight: 700;
-	font-size: 30px;
-	color: #1D6154
+h2 {
+  font-family: 'Syne';
+  font-weight: 700;
+  font-size: 30px;
+  color: #1D6154
 }
+
 nav ul {
-	display: flex;
-	align-items: center;
-	list-style-type: none;
+  display: flex;
+  align-items: center;
+  list-style-type: none;
 
 }
+
 nav li {
-	padding: 0 10px;
-	font-size: 1.2em;
+  padding: 0 10px;
+  font-size: 1.2em;
 }
 
 li:hover {
-	color: #B1663C;
+  color: #B1663C;
 }
+
 #introduction {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
+
 #introduction figure {
-	flex: 1
+  flex: 1
 }
+
 #introduction img {
-	display: block;
-	margin: auto;
-	width: 80%;
+  display: block;
+  margin: auto;
+  width: 80%;
 }
 
 #introduction article {
-	flex: 1
+  flex: 1
 }
+
 #introduction h2 {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 #introduction p {
-	margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
+
 #portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
+  text-align: center;
+  margin-bottom: 1em;
 }
+
 .gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
 }
 
 .gallery img {
-	width: 100%;
+  width: 100%;
 
 }
+
 #contact {
-	width: 50%;
-margin: auto;
+  width: 50%;
+  margin: auto;
 }
-#contact > * {
-	text-align: center;
+
+#contact>* {
+  text-align: center;
 
 }
-#contact h2{
-	margin-bottom: 20px;
+
+#contact h2 {
+  margin-bottom: 20px;
 }
+
 #contact form {
-	text-align: left;
-	margin-top:30px;
-	display: flex;
-	flex-direction: column;
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
 }
 
 #contact input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-#contact label {
-	margin: 2em 0 1em 0;
-}
-#contact textarea {
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
+#contact label {
+  margin: 2em 0 1em 0;
+}
+
+#contact textarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+input[type="submit"] {
+  font-family: 'Syne';
+  font-weight: 700;
+  color: white;
+  background-color: #1D6154;
+  margin: 2em auto;
+  width: 180px;
+  text-align: center;
+  border-radius: 60px;
 }
 
 footer nav ul {
-	display: flex;
-	justify-content: flex-end;
-	margin: 2em
+  display: flex;
+  justify-content: flex-end;
+  margin: 2em
 }
 
 .filters {
@@ -334,7 +438,7 @@ footer {
   background-color: white;
   min-height: 60px;
   width: 100%;
-  margin-top: 60px; 
+  margin-top: 60px;
   padding: 1rem 2rem;
   box-sizing: border-box;
 
@@ -360,42 +464,314 @@ footer nav ul {
 /* in assets/style.css */
 
 .portfolio-header {
-  display: flex;                /* lay title and button in a row */
-  justify-content: center;      /* center both horizontally */
-  align-items: baseline;        /* align the text baselines */
-  gap: 0.5rem;                  /* small space between them */
-  margin-bottom: 1.5rem;        /* space below before filters */
+  display: flex;
+  /* lay title and button in a row */
+  justify-content: center;
+  /* center both horizontally */
+  align-items: baseline;
+  /* align the text baselines */
+  gap: 0.5rem;
+  /* small space between them */
+  margin-bottom: 1.5rem;
+  /* space below before filters */
 }
 
 .portfolio-header h2 {
-  margin: 0;                    /* remove default h2 margins */
-  font-size: 2rem;              /* adjust to match your mock-up */
+  margin: 0;
+  /* remove default h2 margins */
+  font-size: 2rem;
+  /* adjust to match your mock-up */
   font-weight: 700;
 }
 
 .portfolio-header .edit-btn {
   background: none;
   border: none;
-  padding: 8px;            /* comfortable hit area */
-  margin-left: 0.5rem;     /* space from the title */
+  padding: 8px;
+  /* comfortable hit area */
+  margin-left: 0.5rem;
+  /* space from the title */
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: inherit; 
-  gap: 10px; 
-transform: translateY(-4px);
+  color: inherit;
+  gap: 10px;
+  transform: translateY(-4px);
 }
 
 .portfolio-header .edit-btn:hover {
-  color: #333;             /* subtle hover */
+  color: #333;
+  /* subtle hover */
 }
 
 .edit-btn .edit-label {
   font-family: 'Work Sans', sans-serif;
   font-weight: 400;
   font-size: 14px;
-  line-height: 14px;          /* 100% of 14px */
+  line-height: 14px;
+  /* 100% of 14px */
   letter-spacing: 0;
-  color: inherit;             /* matches surrounding text color */
+  color: inherit;
+  /* matches surrounding text color */
+}
+
+/* ——— Modal Overlay & Centering ——— */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ——— Modal White Box ——— */
+.modal-content {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: 8px;
+  width: 630px;
+  height: 670px;
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+/* ——— Header ——— */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 1rem;
+}
+
+.modal-back {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  visibility: hidden;
+  /* only in add view */
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+#modal-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 400;
+  position: relative;
+  top: 60px;
+}
+
+/* ——— Shared View Container ——— */
+.modal-view {
+  padding: 1rem;
+  margin: 0;
+}
+
+/* ——— VIEW 1: Photo Gallery ——— */
+.modal-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 90px;
+}
+
+.modal-hr {
+  width: 420px;
+}
+
+.modal-thumbs figure {
+  position: relative;
+  margin: 0;
+}
+
+.modal-thumbs img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+
+.modal-thumbs .delete-thumb {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #000000;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  padding: 2px 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: none;
+}
+
+.modal-thumbs figure:hover .delete-thumb {
+  display: block;
+}
+
+.btn-add-photo {
+  display: block;
+  margin: 0 auto;
+  padding: 9px 49px;
+  background: #1D6154;
+  color: #fff;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  font-size: 1rem;
+  position: relative;
+  top: 35px;
+}
+
+#open-add-view {
+  font-family: 'Syne';
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ——— VIEW 2: Add Photo Form ——— */
+/* —— Add-Photo View: Upload Area —— */
+.upload-container {
+  width: 420px;
+  margin: 0 auto 16px;
+  text-align: center;
+}
+
+.file-upload {
+  position: relative;
+}
+
+.upload-box {
+  width: 100%;
+  height: 169px;
+  background: #E8F1F6;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* clicks pass through to input */
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.upload-icon {
+  font-size: 32px;
+  color: #B9C5CC;
+  margin-bottom: 8px;
+}
+
+.upload-btn {
+  background: #B9C5CC;
+  color: #306685;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 16px;
+  pointer-events: none;
+}
+
+.upload-hint {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
+
+/* —— Form Fields —— */
+#view-add #add-photo-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#view-add #add-photo-form label {
+  width: 420px;
+  margin-top: 16px;
+  font-weight: 500;
+}
+
+#view-add #add-photo-form input[type="text"],
+#view-add #add-photo-form select {
+  width: 420px !important;    /* lock in 420px */
+  max-width: 420px;
+  margin: 8px 0;      /* 8px top/bottom, centered by flex */
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: 'Work Sans', sans-serif;
+  font-size: 14px;
+}
+
+
+/* Divider */
+.modal-divider {
+  border: 0;
+  border-top: 1px solid #e0e0e0;
+  margin: 24px 0 16px;
+}
+
+/* —— Confirm Button —— */
+.btn-confirm {
+  width: 100%;
+  padding: 12px;
+  background: #B9C5CC;   /* grey when disabled */
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: not-allowed;
+  transition: background 0.2s;
+}
+
+.btn-confirm:enabled {
+  background: #1D6154;   /* green when enabled */
+  cursor: pointer;
+}
+
+
+/* ——— State Toggles ——— */
+.modal[data-view="gallery"] .modal-back {
+  visibility: hidden;
+}
+
+.modal[data-view="add"] .modal-back {
+  visibility: visible;
 }

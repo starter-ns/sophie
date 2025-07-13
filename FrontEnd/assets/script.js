@@ -61,3 +61,107 @@ function renderGallery(jobs) {
 // 4) Kick it off
 fetchAndDisplayJobs();
 
+// ——— Modal Controls & View Logic ———
+
+// Grab new DOM elements
+const editBtn      = document.getElementById('open-edit-mode');
+const modal        = document.getElementById('admin-modal');
+const backdrop     = modal.querySelector('.modal-backdrop');
+const closeBtn     = document.getElementById('modal-close');
+const backBtn      = document.getElementById('back-to-gallery');
+const galleryView  = document.getElementById('view-gallery');
+const addView      = document.getElementById('view-add');
+const openAddBtn   = document.getElementById('open-add-view');
+const thumbsContainer = document.querySelector('.modal-thumbs');
+const titleEl      = document.getElementById('modal-title');
+const fileInput    = document.getElementById('photo-input');
+const form         = document.getElementById('add-photo-form');
+
+// 1) Show Edit button when logged in
+if (localStorage.getItem('token')) {
+  editBtn.style.display = 'inline-flex';
+}
+
+// 2) Open in gallery view
+editBtn.addEventListener('click', () => {
+  modal.style.display          = 'flex';
+  modal.setAttribute('data-view','gallery');
+  titleEl.textContent          = 'Photo Gallery';
+  galleryView.style.display    = 'block';
+  addView.style.display        = 'none';
+
+  // populate thumbnails
+  thumbsContainer.innerHTML = '';
+  allJobs.forEach(job => {
+    const fig = document.createElement('figure');
+    fig.innerHTML = `
+      <img src="${job.imageUrl}" alt="${job.title}">
+      <button class="delete-thumb" data-id="${job.id}"><i class="fa-solid fa-trash-can"></i></button>
+    `;
+    thumbsContainer.append(fig);
+  });
+  // wire delete buttons
+  thumbsContainer.querySelectorAll('.delete-thumb').forEach(btn => {
+    btn.addEventListener('click', async e => {
+      const id = e.currentTarget.dataset.id;
+      await fetch(`http://localhost:5678/api/works/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization:`Bearer ${localStorage.getItem('token')}` }
+      });
+      // remove from array & re-render
+      allJobs = allJobs.filter(j=>j.id!=id);
+      e.currentTarget.closest('figure').remove();
+    });
+  });
+});
+
+// 3) Close modal
+[backdrop, closeBtn].forEach(el =>
+  el.addEventListener('click', () => modal.style.display = 'none')
+);
+
+// 4) Switch to Add view
+openAddBtn.addEventListener('click', () => {
+  modal.setAttribute('data-view','add');
+  titleEl.textContent   = 'Add Photo';
+  galleryView.style.display = 'none';
+  addView.style.display     = 'block';
+
+  // populate category dropdown
+  const select = document.getElementById('category-select');
+  select.innerHTML = '<option value="">Select category</option>';
+  [...new Set(allJobs.map(j=>j.category.name))].forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat; opt.textContent = cat;
+    select.append(opt);
+  });
+});
+
+// 5) Back to gallery view
+backBtn.addEventListener('click', () => {
+  modal.setAttribute('data-view','gallery');
+  titleEl.textContent       = 'Photo Gallery';
+  galleryView.style.display = 'block';
+  addView.style.display     = 'none';
+});
+
+// 6) Handle new photo submissions
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const fd = new FormData();
+  fd.append('image', fileInput.files[0]);
+  fd.append('title', document.getElementById('title-input').value);
+  fd.append('category', document.getElementById('category-select').value);
+
+  const res = await fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    headers: { Authorization:`Bearer ${localStorage.getItem('token')}` },
+    body: fd
+  });
+  const newJob = await res.json();
+  allJobs.push(newJob);
+
+  // Immediately add to gallery & modal thumbs
+  renderGallery(allJobs);
+  openAddBtn.click();   // back to gallery view
+});
