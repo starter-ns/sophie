@@ -9,8 +9,12 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
-	<meta name="description" content="">
-	<link rel="stylesheet" href="./assets/style.css">
+		<meta name="description" content="">
+		<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+<link rel="stylesheet" href="./assets/style.css">
 </head>
 
 <body>
@@ -42,12 +46,21 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>My Projects</h2>
-			<div class="filters"></div>
-			<div class="gallery">
+  <div class="portfolio-header">
+    <h2>My Projects</h2>
+    <!-- our new edit button/icon: -->
+   <button id="open-edit-mode" class="edit-btn" aria-label="Edit portfolio">
+  <i class="fa-regular fa-pen-to-square"></i>
+  <span class="edit-label">Edit</span>
+</button>
 
-			</div>
-		</section>
+
+  </div>
+
+  <div class="filters"></div>
+  <div class="gallery"></div>
+</section>
+
 		<section id="contact">
 			<h2>Contact</h2>
 			<p>Do you have a project in mind? Let’s talk about it!</p>
