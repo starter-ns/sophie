@@ -1,37 +1,41 @@
-// Grab form and error message
-const form = document.querySelector('#login-form');
-const errorMessage = document.getElementById('error-message');
+// assets/login.js
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('login-form');
+  const err  = document.getElementById('error-message');
 
-  // Read values
-  const email = form.email.value.trim();
-  const password = form.password.value;
+  form.addEventListener('submit', async e => {
+    e.preventDefault();  // stop the browser from reloading
 
-  try {
-    // Send login request
-    const response = await fetch('http://localhost:5678/api/users/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
+    // read the values from your existing inputs
+    const email    = form.querySelector('input[name="email"]').value.trim();
+    const password = form.querySelector('input[name="password"]').value;
 
-    const data = await response.json();
+    try {
+      // send them to your back-end
+      console.log('Attempting login with:', { email, password });
 
-    if (response.ok) {
-      // Success: store token & go home
-      localStorage.setItem('token', data.token);
-      window.location.href = 'index.html';
-    } else {
-      // Show error message from server or generic
-      errorMessage.textContent = data.message || 'Invalid email or password.';
-      errorMessage.style.display = 'block';
+      const response = await fetch('http://localhost:5678/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // on success, save the token and go back to index.html
+        localStorage.setItem('token', data.token);
+        window.location.href = 'index.html';
+      } else {
+        // on error, show the message in your existing error container
+        err.textContent = data.message || 'Invalid credentials.';
+        err.style.display = 'block';
+      }
+    } catch (networkError) {
+      console.error(networkError);
+      err.textContent = 'Network error—please try again later.';
+      err.style.display = 'block';
     }
-  } catch (err) {
-    // Network/server error
-    console.error('Login error:', err);
-    errorMessage.textContent = 'Server error—please try again later.';
-    errorMessage.style.display = 'block';
-  }
+  });
 });
