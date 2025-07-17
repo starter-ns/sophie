@@ -89,7 +89,7 @@
 			<!-- Modal Header (common) -->
 			<div class="modal-header">
 				<!-- Back arrow (only shown in Add view) -->
-				<button id="back-to-gallery" class="modal-back" aria-label="Retour">&larr;</button>
+				<button id="back-to-gallery" class="modal-back" aria-label="Retour"><i class="fa-solid fa-arrow-left"></i></button>
 				<!-- Title will change per view -->
 				<h3 id="modal-title">Photo Gallery</h3>
 				<!-- Close button -->
@@ -112,9 +112,9 @@
 							<div class="upload-box">
 								<i class="fa-regular fa-image upload-icon"></i>
 								<button type="button" class="upload-btn">+ Add photo</button>
+														<small class="upload-hint">jpg, png: max 4 MB</small>
 							</div>
 						</label>
-						<small class="upload-hint">jpg, png: max 4 MB</small>
 					</div>
 
 					<label for="title-input">Title</label>
@@ -125,7 +125,7 @@
 						<option value="">Select category</option>
 					</select>
 
-					<hr class="modal-hr">
+					<hr class="modal-hr2">
 
 					<button type="submit" class="btn-confirm" disabled>Confirm</button>
 				</form>

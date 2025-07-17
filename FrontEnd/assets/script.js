@@ -129,7 +129,7 @@ openAddBtn.addEventListener('click', () => {
 
   // populate category dropdown
   const select = document.getElementById('category-select');
-  select.innerHTML = '<option value="">Select category</option>';
+  select.innerHTML = '<option value=""></option>';
   [...new Set(allJobs.map(j=>j.category.name))].forEach(cat => {
     const opt = document.createElement('option');
     opt.value = cat; opt.textContent = cat;
