@@ -630,12 +630,9 @@ footer nav ul {
   padding: 2px 4px;
   font-size: 0.8rem;
   cursor: pointer;
-  display: none;
-}
-
-.modal-thumbs figure:hover .delete-thumb {
   display: block;
 }
+
 
 .btn-add-photo {
   display: block;
