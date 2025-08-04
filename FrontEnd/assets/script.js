@@ -1,59 +1,6 @@
 // 1) Grab DOM references
-const gallery = document.querySelector('.gallery');
-const filtersDiv = document.querySelector('.filters');
-
-let allJobs = [];
-
-// 2) Fetch, build filters, and render
-async function fetchAndDisplayJobs() {
-  try {
-    const res = await fetch('http://localhost:5678/api/works');
-    allJobs = await res.json();
-
-    // Build filter buttons
-    const categoryNames = allJobs.map(job => job.category.name);
-    const uniqueNames = [...new Set(categoryNames)];
-    filtersDiv.innerHTML =
-      `<button class="active">All</button>` +
-      uniqueNames.map(name => `<button>${name}</button>`).join('');
-
-    // Wire up filter clicks
-    filtersDiv.querySelectorAll('button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        filtersDiv.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const choice = btn.textContent.toLowerCase();
-        const toShow = choice === 'all'
-          ? allJobs
-          : allJobs.filter(j => j.category.name.toLowerCase() === choice);
-        renderGallery(toShow);
-      });
-    });
-
-    renderGallery(allJobs);
-  } catch (err) {
-    console.error('Error fetching jobs:', err);
-  }
-}
-
-// 3) Render helper
-function renderGallery(jobs) {
-  gallery.innerHTML = '';
-  jobs.forEach(({ imageUrl, title }) => {
-    const figure = document.createElement('figure');
-    figure.innerHTML = `
-      <img src="${imageUrl}" alt="${title}">
-      <figcaption>${title}</figcaption>
-    `;
-    gallery.appendChild(figure);
-  });
-}
-
-// 4) Kick it off
-fetchAndDisplayJobs();
-
-// ——— Modal Controls & View Logic ———
-
+const gallery         = document.querySelector('.gallery');
+const filtersDiv      = document.querySelector('.filters');
 const editBtn         = document.getElementById('open-edit-mode');
 const modal           = document.getElementById('admin-modal');
 const backdrop        = modal.querySelector('.modal-backdrop');
@@ -66,13 +13,75 @@ const thumbsContainer = document.querySelector('.modal-thumbs');
 const titleEl         = document.getElementById('modal-title');
 const fileInput       = document.getElementById('photo-input');
 const form            = document.getElementById('add-photo-form');
+const titleInput      = document.getElementById('title-input');
+const categorySelect  = document.getElementById('category-select');
+const confirmBtn      = document.querySelector('.btn-confirm');
 
-// 1) Show Edit button only if logged in
+// 2) Toggle Confirm button enabled state
+function updateConfirm() {
+  const ready =
+    fileInput.files.length > 0 &&
+    titleInput.value.trim() !== '' &&
+    categorySelect.value !== '';
+  confirmBtn.disabled = !ready;
+}
+[titleInput, categorySelect].forEach(el =>
+  el.addEventListener('input', updateConfirm)
+);
+fileInput.addEventListener('change', updateConfirm);
+
+
+// 3) In-memory store of jobs
+let allJobs = [];
+
+// 4) Fetch & render main gallery + filters
+async function fetchAndDisplayJobs() {
+  try {
+    const res = await fetch('http://localhost:5678/api/works');
+    allJobs = await res.json();
+    // Build filter buttons
+    const names = allJobs.map(j => j.category.name);
+    const unique = [...new Set(names)];
+    filtersDiv.innerHTML =
+      `<button class="active">All</button>` +
+      unique.map(n => `<button>${n}</button>`).join('');
+    filtersDiv.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        filtersDiv.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const choice = btn.textContent.toLowerCase();
+        const list = choice === 'all'
+          ? allJobs
+          : allJobs.filter(j => j.category.name.toLowerCase() === choice);
+        renderGallery(list);
+      });
+    });
+    renderGallery(allJobs);
+  } catch (err) {
+    console.error('Error fetching jobs:', err);
+  }
+}
+function renderGallery(jobs) {
+  gallery.innerHTML = '';
+  jobs.forEach(({ imageUrl, title }) => {
+    const fig = document.createElement('figure');
+    fig.innerHTML = `
+      <img src="${imageUrl}" alt="${title}">
+      <figcaption>${title}</figcaption>
+    `;
+    gallery.appendChild(fig);
+  });
+}
+fetchAndDisplayJobs();
+
+// 5) Modal controls
+
+// Show Edit only if logged in
 if (localStorage.getItem('token')) {
   editBtn.style.display = 'inline-flex';
 }
 
-// 2) Open in gallery view
+// Open modal gallery view
 editBtn.addEventListener('click', () => {
   modal.style.display        = 'flex';
   modal.setAttribute('data-view','gallery');
@@ -80,7 +89,7 @@ editBtn.addEventListener('click', () => {
   galleryView.style.display  = 'block';
   addView.style.display      = 'none';
 
-  // Populate thumbnails
+  // Fill thumbnails
   thumbsContainer.innerHTML = '';
   allJobs.forEach(job => {
     const fig = document.createElement('figure');
@@ -93,72 +102,101 @@ editBtn.addEventListener('click', () => {
     thumbsContainer.append(fig);
   });
 
-  // Wire up simple delete on each button
+  // Wire deletes
   thumbsContainer.querySelectorAll('.delete-thumb').forEach(btn => {
-    btn.addEventListener('click', async e => {
+    btn.addEventListener('click', async () => {
       const id = btn.dataset.id;
-      const token = localStorage.getItem('token');
-
-      // Send DELETE
       await fetch(`http://localhost:5678/api/works/${id}`, {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
-
-      // Update data & UI
-      allJobs = allJobs.filter(job => job.id !== Number(id));
+      allJobs = allJobs.filter(j => j.id !== Number(id));
       btn.closest('figure').remove();
       renderGallery(allJobs);
     });
   });
 });
 
-// 3) Close modal
+// Close modal
 [backdrop, closeBtn].forEach(el =>
   el.addEventListener('click', () => modal.style.display = 'none')
 );
 
-// 4) Switch to Add view
+// Switch to Add view
 openAddBtn.addEventListener('click', () => {
   modal.setAttribute('data-view','add');
-  titleEl.textContent        = 'Add Photo';
-  galleryView.style.display  = 'none';
-  addView.style.display      = 'block';
+  titleEl.textContent       = 'Add Photo';
+  galleryView.style.display = 'none';
+  addView.style.display     = 'block';
 
-  const select = document.getElementById('category-select');
-  select.innerHTML = '<option value="">Select category</option>';
-  [...new Set(allJobs.map(j => j.category.name))].forEach(cat => {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = cat;
-    select.append(opt);
+  // Populate category selector with IDs
+  categorySelect.innerHTML = '<option value="">Select category</option>';
+  const seen = new Set();
+  allJobs.forEach(job => {
+    const { id, name } = job.category;
+    if (!seen.has(id)) {
+      seen.add(id);
+      const opt = document.createElement('option');
+      opt.value       = id;   // numeric ID
+      opt.textContent = name; // display name
+      categorySelect.append(opt);
+    }
   });
 });
 
-// 5) Back to gallery view
+// Back to gallery
 backBtn.addEventListener('click', () => {
   modal.setAttribute('data-view','gallery');
-  titleEl.textContent        = 'Photo Gallery';
-  galleryView.style.display  = 'block';
-  addView.style.display      = 'none';
+  titleEl.textContent       = 'Photo Gallery';
+  galleryView.style.display = 'block';
+  addView.style.display     = 'none';
 });
 
-// 6) Handle new photo submissions
-form.addEventListener('submit', async e => {
-  e.preventDefault();
-  const fd = new FormData();
-  fd.append('image', fileInput.files[0]);
-  fd.append('title', document.getElementById('title-input').value);
-  fd.append('category', document.getElementById('category-select').value);
+// 6) uploadWork helper
+async function uploadWork(file, title, categoryId) {
+  const formData = new FormData();
+    console.log(formData)
+  formData.append('image', file);
+  formData.append('title', title);
+  formData.append('categoryId', categoryId);
+
+  const token = localStorage.getItem('token');
+  if (!token) throw new Error('Not authenticated.');
 
   const res = await fetch('http://localhost:5678/api/works', {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-    body: fd
+    headers: { 'Authorization': `Bearer ${token}` },
+    body: formData
   });
-  const newJob = await res.json();
-  allJobs.push(newJob);
+  if (!res.ok) {
+    let errBody;
+    try { errBody = await res.json(); }
+    catch { errBody = await res.text(); }
+    throw new Error(`Upload failed: ${JSON.stringify(errBody)}`);
+  }
+  return await res.json();
+}
 
-  renderGallery(allJobs);
-  openAddBtn.click();
+// 7) Handle Add-Photo submit
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  try {
+    const file       = fileInput.files[0];
+    const title      = titleInput.value.trim();
+    const categoryId = parseInt(categorySelect.value, 10);
+
+    console.log('🔼 Uploading:', { title, categoryId, fileName: file.name });
+    const newJob = await uploadWork(file, title, categoryId);
+    console.log('✅ Uploaded:', newJob);
+
+    // Update UI
+    allJobs.push(newJob);
+    renderGallery(allJobs);
+    editBtn.click();
+    form.reset();
+    confirmBtn.disabled = true;
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
 });
