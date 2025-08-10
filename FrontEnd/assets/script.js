@@ -1,3 +1,6 @@
+// ===== Helpers =====
+const getToken = () => sessionStorage.getItem('token') || localStorage.getItem('token');
+
 // ===== DOM refs =====
 const gallery         = document.querySelector('.gallery');
 const filtersDiv      = document.querySelector('.filters');
@@ -21,8 +24,12 @@ const titleInput      = document.getElementById('title-input');
 const categorySelect  = document.getElementById('category-select');
 const confirmBtn      = document.querySelector('.btn-confirm');
 
+// Optional logout button (only if you add it in HTML)
+const logoutBtn       = document.getElementById('logout-btn');
+
 // ===== State =====
 let allJobs = [];
+let previewURL; // for image preview memory cleanup
 
 // ===== Rendering helpers =====
 function renderGallery(jobs) {
@@ -54,6 +61,7 @@ function buildFiltersFrom(jobs) {
   });
 }
 
+// ===== Filter utilities =====
 function currentFilterChoice() {
   const active = filtersDiv.querySelector('button.active');
   return active ? active.dataset.filter : '__all';
@@ -109,16 +117,17 @@ function fillModalThumbs(jobs) {
       try {
         const res = await fetch(`http://localhost:5678/api/works/${id}`, {
           method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+          headers: { 'Authorization': `Bearer ${getToken()}` }
         });
         if (!res.ok) {
           alert('Failed to delete.');
           return;
         }
-        // Remove from state
+        // Update state
         allJobs = allJobs.filter(j => j.id !== id);
-        // Remove from both galleries without reload
+        // Remove from modal thumbs
         btn.closest('figure')?.remove();
+        // Remove from main gallery without reload
         const mainFig = gallery.querySelector(`figure[data-id="${id}"]`);
         if (mainFig) mainFig.remove();
       } catch (e) {
@@ -161,10 +170,22 @@ async function fetchAndDisplayJobs() {
 fetchAndDisplayJobs();
 
 // ===== Auth UI =====
-if (localStorage.getItem('token')) {
-  editBtn.style.display = 'inline-flex';
-} else {
-  editBtn.style.display = 'none';
+const token = getToken();
+const isAuthed = !!token;
+
+// show/hide admin stuff
+editBtn.style.display = isAuthed ? 'inline-flex' : 'none';
+// show filters only when NOT logged in
+filtersDiv.style.display = isAuthed ? 'none' : 'flex';
+
+// Optional logout handler (only if you add #logout-btn in HTML)
+if (logoutBtn) {
+  logoutBtn.style.display = isAuthed ? 'inline-block' : 'none';
+  logoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
+    location.reload();
+  });
 }
 
 // ===== Modal controls =====
@@ -179,22 +200,27 @@ function openModalGalleryView() {
 
 function openModalAddView() {
   modal.setAttribute('data-view', 'add');
-  titleEl.textContent = 'Add photo';
+  titleEl.textContent = 'Add Photo';
   galleryView.style.display = 'none';
   addView.style.display = 'block';
   populateCategorySelectFrom(allJobs);
   form.reset();
+  fileInput.value = ''; // allow re-upload of same file
   resetUploadPreview();
   updateConfirm();
 }
 
 editBtn.addEventListener('click', openModalGalleryView);
 [backdrop, closeBtn].forEach(el =>
-  el.addEventListener('click', () => { modal.style.display = 'none'; })
+  el.addEventListener('click', () => {
+    modal.style.display = 'none';
+    resetUploadPreview(); // clean preview on close
+  })
 );
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modal.style.display === 'flex') {
     modal.style.display = 'none';
+    resetUploadPreview(); // clean preview on close
   }
 });
 openAddBtn.addEventListener('click', openModalAddView);
@@ -219,12 +245,12 @@ async function uploadWork(file, title, categoryId) {
   fd.append('title', title);
   fd.append('category', String(categoryId));
 
-  const token = localStorage.getItem('token');
-  if (!token) throw new Error('Not authenticated.');
+  const auth = getToken();
+  if (!auth) throw new Error('Not authenticated.');
 
   const res = await fetch('http://localhost:5678/api/works', {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${token}` },
+    headers: { 'Authorization': `Bearer ${auth}` },
     body: fd
   });
 
@@ -245,7 +271,6 @@ if (!previewImg) {
   previewImg.className = 'preview';
   uploadContainer.appendChild(previewImg);
 }
-let previewURL;
 
 fileInput.addEventListener('change', () => {
   const file = fileInput.files?.[0];
@@ -320,7 +345,7 @@ form.addEventListener('submit', async (e) => {
       try {
         const res = await fetch(`http://localhost:5678/api/works/${id}`, {
           method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+          headers: { 'Authorization': `Bearer ${getToken()}` }
         });
         if (!res.ok) {
           alert('Failed to delete.');
@@ -337,6 +362,7 @@ form.addEventListener('submit', async (e) => {
     });
 
     form.reset();
+    fileInput.value = ''; // reset to allow same file again
     resetUploadPreview();
     updateConfirm();
     openModalGalleryView();
