@@ -358,10 +358,9 @@ nav li img {
 }
 
 #contact input {
-  height: 50px;
+  height: 51px;
   font-size: 1.2em;
   border: none;
-  border-radius: 5px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, .09);
 }
 
@@ -377,7 +376,8 @@ input[type="submit"] {
   color: #fff;
   background: #1D6154;
   margin: 2em auto;
-  width: 180px;
+  width: 179px;
+  height: 36px !important;
   text-align: center;
   border-radius: 60px;
   cursor: pointer;
@@ -747,7 +747,7 @@ footer {
 /* Upload preview state (129×169, cropped & centered) */
 #admin-modal .upload-container {
   position: relative;
-  height: 169px;
+  height: 190px;
   background: #E8F1F6;
   border-radius: 3px;
   display: flex;
