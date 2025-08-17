@@ -186,7 +186,8 @@ nav li {
 }
 
 nav li:hover {
-  color: #B1663C;
+  color: #000000;
+  font-weight: 700;
 }
 
 nav li img {
@@ -321,7 +322,6 @@ nav li img {
   display: block;
   object-fit: cover;
   object-position: center;
-  border-radius: 4px;
 }
 
 .gallery figcaption {
@@ -415,11 +415,11 @@ input[type="submit"] {
 
 #login input[type="email"],
 #login input[type="password"] {
-  height: 40px;
+  height: 51px;
+  width: 379px;
   padding: 0 15px;
   font-size: 14px;
   border: none;
-  border-radius: 5px;
   background: #fff;
   box-shadow: 0 4px 14px #00000017;
 }
@@ -451,7 +451,7 @@ input[type="submit"] {
 /* =========================
    Footer
 ========================= */
-footer {
+.index-footer {
   background: #fff;
   min-height: 60px;
   width: 100%;
@@ -462,12 +462,40 @@ footer {
   align-items: center;
   justify-content: flex-end;
 }
+html, body {
+  height: 100%;
+}
+
+/* Wrapper = structure en colonne */
+.page-wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main prend toute la place dispo */
+main {
+  flex: 1;
+}
+
+/* Footer reste en bas */
+.login-footer {
+  background: #fff;
+  min-height: 60px;
+  width: 100%;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: auto; /* colle le footer en bas */
+}
 
 .footer-legal {
   font-weight: 300;
   font-size: 14px;
   color: #000;
-  cursor: pointer;
+  cursor: pointer; 
 }
 
 /* =========================
@@ -545,6 +573,19 @@ footer {
 
 .modal[data-view="add"] .modal-back {
   visibility: visible;
+}
+#view-add #add-photo-form input[type="text"], #view-add #add-photo-form select {
+  display: none;
+      background: none;
+    border: none;
+    padding: 8px;
+    margin-left: .5rem;
+    cursor: pointer;
+    display: inline-flex;
+    gap: 10px;
+    color: inherit;
+    border-radius: 0;
+    transform: translateY(-4px);
 }
 
 /* =========================
@@ -765,12 +806,11 @@ footer {
 
 #admin-modal .upload-container img.preview {
   width: 129px;
-  height: 169px;
+  height: 190px;
   object-fit: cover;
   object-position: center;
   display: none;
   z-index: 1;
-  border-radius: 3px;
 }
 
 #admin-modal .upload-container.has-preview .upload-box {
@@ -779,4 +819,59 @@ footer {
 
 #admin-modal .upload-container.has-preview img.preview {
   display: block;
+}
+.admin-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 59px;               /* taller bar */
+  background: #000;
+  color: #fff;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;    /* center icon + text */
+  gap: 8px;
+  z-index: 2000;
+}
+
+.admin-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;            /* looks nicer with more height */
+}
+
+.logout-btn {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  text-decoration: underline;
+}
+
+/* shift everything down by the bar height */
+body.has-admin-bar {
+  margin-top: 90px;
+}
+nav a {
+  text-decoration: none;
+  color: inherit;
+}
+/* Contact message box: fixed size, no user resize */
+#contact textarea {
+  width: 100%;            /* fill the form width, but not beyond */
+  height: 180px;          /* set a fixed height */
+  box-sizing: border-box; /* keep padding inside the set size */
+  resize: none;           /* disable the drag-to-resize handle */
+  overflow: auto;         /* scroll if content is longer */
 }

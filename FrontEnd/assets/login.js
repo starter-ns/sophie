@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Back to homepage
         window.location.href = 'index.html';
       } else {
-        err.textContent = data.message || 'Invalid credentials.';
+        err.textContent = data.message || 'Invalid username or password.';
         err.style.display = 'block';
       }
     } catch (networkError) {

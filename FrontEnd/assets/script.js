@@ -24,9 +24,6 @@ const titleInput      = document.getElementById('title-input');
 const categorySelect  = document.getElementById('category-select');
 const confirmBtn      = document.querySelector('.btn-confirm');
 
-// Optional logout button (only if you add it in HTML)
-const logoutBtn       = document.getElementById('logout-btn');
-
 // ===== State =====
 let allJobs = [];
 let previewURL; // for image preview memory cleanup
@@ -138,20 +135,25 @@ function fillModalThumbs(jobs) {
   });
 }
 
+// === Category select: keep a truly empty default, do NOT auto-select ===
 function populateCategorySelectFrom(jobs) {
-  categorySelect.innerHTML = '<option value="">Select category</option>';
+  // Keep a blank, disabled, selected, hidden placeholder (shows empty box)
+  categorySelect.innerHTML = '<option value="" disabled selected hidden></option>';
+
   const seen = new Set();
   jobs.forEach(job => {
     const { id, name } = job.category || {};
-    if (!id || !name) return;
-    if (!seen.has(id)) {
-      seen.add(id);
-      const opt = document.createElement('option');
-      opt.value = String(id);
-      opt.textContent = name;
-      categorySelect.append(opt);
-    }
+    if (!id || !name || seen.has(id)) return;
+    seen.add(id);
+    const opt = document.createElement('option');
+    opt.value = String(id);
+    opt.textContent = name;
+    categorySelect.append(opt);
   });
+
+  // Ensure nothing is selected after populating (some browsers auto-pick)
+  categorySelect.value = '';
+  categorySelect.selectedIndex = 0;
 }
 
 // ===== Fetch initial works =====
@@ -178,14 +180,39 @@ editBtn.style.display = isAuthed ? 'inline-flex' : 'none';
 // show filters only when NOT logged in
 filtersDiv.style.display = isAuthed ? 'none' : 'flex';
 
-// Optional logout handler (only if you add #logout-btn in HTML)
-if (logoutBtn) {
-  logoutBtn.style.display = isAuthed ? 'inline-block' : 'none';
-  logoutBtn.addEventListener('click', () => {
+// handle header login/logout link
+const loginLink = document.getElementById('login-link');
+
+if (isAuthed) {
+  // change to "logout"
+  loginLink.textContent = 'logout';
+  loginLink.style.cursor = 'pointer';
+  loginLink.addEventListener('click', () => {
     sessionStorage.removeItem('token');
     localStorage.removeItem('token');
-    location.reload();
+    location.href = 'index.html'; // back to homepage after logout
   });
+
+  // show black admin bar
+  const adminBar = document.getElementById('admin-bar');
+  if (adminBar) {
+    adminBar.style.display = 'flex';
+    document.body.classList.add('has-admin-bar');
+  }
+} else {
+  // default is "login" → redirect to login page
+  loginLink.textContent = 'login';
+  loginLink.style.cursor = 'pointer';
+  loginLink.addEventListener('click', () => {
+    location.href = 'login.html';
+  });
+
+  // hide black admin bar
+  const adminBar = document.getElementById('admin-bar');
+  if (adminBar) {
+    adminBar.style.display = 'none';
+    document.body.classList.remove('has-admin-bar');
+  }
 }
 
 // ===== Modal controls =====
@@ -203,9 +230,14 @@ function openModalAddView() {
   titleEl.textContent = 'Add Photo';
   galleryView.style.display = 'none';
   addView.style.display = 'block';
+
+  // populate categories & force blank default every time
   populateCategorySelectFrom(allJobs);
   form.reset();
   fileInput.value = ''; // allow re-upload of same file
+  categorySelect.value = '';
+  categorySelect.selectedIndex = 0;
+
   resetUploadPreview();
   updateConfirm();
 }
@@ -230,7 +262,7 @@ backBtn.addEventListener('click', openModalGalleryView);
 function updateConfirm() {
   const hasFile = fileInput.files && fileInput.files.length > 0;
   const titleOk = titleInput.value.trim().length > 0;
-  const catOk   = !!categorySelect.value;
+  const catOk   = !!categorySelect.value; // will be '' until a real choice is made
   confirmBtn.disabled = !(hasFile && titleOk && catOk);
 }
 ['input', 'change'].forEach(evt => {
@@ -363,6 +395,11 @@ form.addEventListener('submit', async (e) => {
 
     form.reset();
     fileInput.value = ''; // reset to allow same file again
+    // reset the select to blank after successful upload
+    populateCategorySelectFrom(allJobs);
+    categorySelect.value = '';
+    categorySelect.selectedIndex = 0;
+
     resetUploadPreview();
     updateConfirm();
     openModalGalleryView();

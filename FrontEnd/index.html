@@ -15,13 +15,21 @@
 </head>
 
 <body>
+	<!-- Black admin bar (hidden by default) -->
+	<div id="admin-bar" class="admin-bar" style="display:none;">
+		<div class="admin-center">
+			<i class="fa-regular fa-pen-to-square"></i>
+			<span>Editing Mode</span>
+		</div>
+	</div>
+
 	<header>
 		<h1>Sophie Bluel <span>Interior Designer</span></h1>
 		<nav>
 			<ul>
 				<li>projects</li>
 				<li>contact</li>
-				<li>login</li>
+				<li id="login-link">login</li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -73,7 +81,7 @@
 		</section>
 	</main>
 
-	<footer>
+	<footer class="index-footer">
 		<nav>
 			<ul>
 				<li>Legal Notice</li>
@@ -89,7 +97,8 @@
 			<!-- Modal Header (common) -->
 			<div class="modal-header">
 				<!-- Back arrow (only shown in Add view) -->
-				<button id="back-to-gallery" class="modal-back" aria-label="Retour"><i class="fa-solid fa-arrow-left"></i></button>
+				<button id="back-to-gallery" class="modal-back" aria-label="Retour"><i
+						class="fa-solid fa-arrow-left"></i></button>
 				<!-- Title will change per view -->
 				<h3 id="modal-title">Photo Gallery</h3>
 				<!-- Close button -->
@@ -112,7 +121,7 @@
 							<div class="upload-box">
 								<i class="fa-regular fa-image upload-icon"></i>
 								<button type="button" class="upload-btn">+ Add photo</button>
-														<small class="upload-hint">jpg, png: max 4 MB</small>
+								<small class="upload-hint">jpg, png: max 4 MB</small>
 							</div>
 						</label>
 					</div>
@@ -122,7 +131,7 @@
 
 					<label for="category-select">Category</label>
 					<select id="category-select" required>
-						<option value="">Select category</option>
+						<option value="" disabled selected hidden></option>
 					</select>
 
 					<hr class="modal-hr2">
