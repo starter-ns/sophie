@@ -116,13 +116,16 @@
 			<section id="view-add" class="modal-view hidden">
 				<form id="add-photo-form">
 					<div class="upload-container">
-						<label class="file-upload">
-							<input type="file" id="photo-input" accept="image/*" required>
-							<div class="upload-box">
-								<i class="fa-regular fa-image upload-icon"></i>
-								<button type="button" class="upload-btn">+ Add photo</button>
+						<!-- keep the real input OUTSIDE the label -->
+						<input type="file" id="photo-input" accept="image/*" required class="visually-hidden">
+
+						<!-- label points to the input; inside use only phrasing elements -->
+						<label for="photo-input" class="file-upload">
+							<span class="upload-box">
+								<i class="fa-regular fa-image upload-icon" aria-hidden="true"></i>
+								<span class="upload-btn" role="button" tabindex="0">+ Add photo</span>
 								<small class="upload-hint">jpg, png: max 4 MB</small>
-							</div>
+							</span>
 						</label>
 					</div>
 
@@ -131,7 +134,7 @@
 
 					<label for="category-select">Category</label>
 					<select id="category-select" required>
-						<option value="" disabled selected hidden></option>
+						<option value="" disabled selected hidden label=" "></option>
 					</select>
 
 					<hr class="modal-hr2">

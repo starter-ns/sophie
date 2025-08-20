@@ -462,7 +462,9 @@ input[type="submit"] {
   align-items: center;
   justify-content: flex-end;
 }
-html, body {
+
+html,
+body {
   height: 100%;
 }
 
@@ -488,14 +490,15 @@ main {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: auto; /* colle le footer en bas */
+  margin-top: auto;
+  /* colle le footer en bas */
 }
 
 .footer-legal {
   font-weight: 300;
   font-size: 14px;
   color: #000;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 /* =========================
@@ -574,18 +577,20 @@ main {
 .modal[data-view="add"] .modal-back {
   visibility: visible;
 }
-#view-add #add-photo-form input[type="text"], #view-add #add-photo-form select {
+
+#view-add #add-photo-form input[type="text"],
+#view-add #add-photo-form select {
   display: none;
-      background: none;
-    border: none;
-    padding: 8px;
-    margin-left: .5rem;
-    cursor: pointer;
-    display: inline-flex;
-    gap: 10px;
-    color: inherit;
-    border-radius: 0;
-    transform: translateY(-4px);
+  background: none;
+  border: none;
+  padding: 8px;
+  margin-left: .5rem;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 10px;
+  color: inherit;
+  border-radius: 0;
+  transform: translateY(-4px);
 }
 
 /* =========================
@@ -764,6 +769,11 @@ main {
 }
 
 .upload-btn {
+  display: flex;
+  /* flex container */
+  align-items: center;
+  /* vertical center */
+  justify-content: center;
   width: 173px;
   height: 36px;
   background: #B9C5CC;
@@ -820,19 +830,22 @@ main {
 #admin-modal .upload-container.has-preview img.preview {
   display: block;
 }
+
 .admin-bar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 59px;               /* taller bar */
+  height: 59px;
+  /* taller bar */
   background: #000;
   color: #fff;
   font-family: 'Work Sans', sans-serif;
   font-size: 14px;
   display: flex;
   align-items: center;
-  justify-content: center;    /* center icon + text */
+  justify-content: center;
+  /* center icon + text */
   gap: 8px;
   z-index: 2000;
 }
@@ -841,7 +854,8 @@ main {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;            /* looks nicer with more height */
+  font-size: 16px;
+  /* looks nicer with more height */
 }
 
 .logout-btn {
@@ -863,15 +877,33 @@ main {
 body.has-admin-bar {
   margin-top: 90px;
 }
+
 nav a {
   text-decoration: none;
   color: inherit;
 }
+
 /* Contact message box: fixed size, no user resize */
 #contact textarea {
-  width: 100%;            /* fill the form width, but not beyond */
-  height: 180px;          /* set a fixed height */
-  box-sizing: border-box; /* keep padding inside the set size */
-  resize: none;           /* disable the drag-to-resize handle */
-  overflow: auto;         /* scroll if content is longer */
+  width: 100%;
+  /* fill the form width, but not beyond */
+  height: 180px;
+  /* set a fixed height */
+  box-sizing: border-box;
+  /* keep padding inside the set size */
+  resize: none;
+  /* disable the drag-to-resize handle */
+  overflow: auto;
+  /* scroll if content is longer */
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
