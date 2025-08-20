@@ -202,6 +202,7 @@ nav li img {
 #introduction {
   display: flex;
   align-items: center;
+  margin:120px 0 120px 0;
 }
 
 #introduction figure {
@@ -222,8 +223,8 @@ nav li img {
   margin-bottom: 1em;
 }
 
-#introduction p {
-  margin-bottom: .5em;
+#introduction p + p {
+  margin-top: 1.5em; /* only add space between consecutive paragraphs */
 }
 
 /* =========================
@@ -907,3 +908,32 @@ nav a {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+/* === Align Introduction with the jobs grid using calc === */
+:root{
+  /* width of the jobs grid area: 3*304 + 2*8 = 928px */
+  --jobs-inner-width: 928px;
+}
+
+/* Give BOTH sections identical side gutters that center a 928px area */
+#introduction,
+#portfolio{
+  padding-inline: max(0px, calc((100% - var(--jobs-inner-width)) / 2));
+  box-sizing: border-box;
+}
+
+/* Make intro image fill its column so visual edges line up */
+#introduction img{
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;           /* remove the old margin:auto that caused drift */
+}
+
+/* Optional: spacing between image and text */
+#introduction{
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+#introduction figure,
+#introduction article{ flex: 1; }
