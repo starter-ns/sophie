@@ -185,7 +185,7 @@ const loginLink = document.getElementById('login-link');
 
 if (isAuthed) {
   // change to "logout"
-  loginLink.textContent = 'logout';
+  loginLink.textContent = 'Logout';
   loginLink.style.cursor = 'pointer';
   loginLink.addEventListener('click', () => {
     sessionStorage.removeItem('token');
