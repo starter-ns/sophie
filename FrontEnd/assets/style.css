@@ -157,7 +157,8 @@ h1 {
 h1 span {
   font-family: 'Work Sans';
   font-size: 10px;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
+  margin-top: 6px;
 }
 
 h2 {
